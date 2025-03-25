@@ -1,0 +1,22 @@
+{
+  "name": "mcp-sui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "@mysten/sui": "^1.24.0"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\""
+  },
+  "files": [
+    "build"
+  ],
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.6.0",
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2"
+  }
+}
