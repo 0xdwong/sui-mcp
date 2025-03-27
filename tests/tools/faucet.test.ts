@@ -1,5 +1,5 @@
 import { SuiClient } from '@mysten/sui/client';
-import { getFaucet } from '../src/tools/faucet.js';
+import { getFaucet } from '../../src/tools/faucet.js';
 import { jest } from '@jest/globals';
 
 // Mock the required modules

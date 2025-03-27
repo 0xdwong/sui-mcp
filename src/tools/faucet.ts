@@ -1,13 +1,12 @@
 import { z } from 'zod';
 import { getFullnodeUrl, SuiClient, CoinBalance } from '@mysten/sui/client';
 import { getFaucetHost, requestSuiFromFaucetV1 } from '@mysten/sui/faucet';
-import { MIST_PER_SUI } from '@mysten/sui/utils';
-
-type SuiNetwork = 'testnet' | 'devnet' | 'localnet';
+import { SuiFaucetNetwork } from '../types.js';
+import { convertBalanceFromMistToSui } from '../utils/balance.js';
 
 export async function getFaucet(
   address: string,
-  network: SuiNetwork,
+  network: SuiFaucetNetwork,
   client: SuiClient
 ): Promise<{ before: number; after: number } | null> {
   let balanceBefore: CoinBalance;
@@ -55,16 +54,12 @@ export async function getFaucet(
   }
 
   const balances = {
-    before: _formatBalance(balanceBefore),
-    after: _formatBalance(balanceAfter),
+    before: convertBalanceFromMistToSui(balanceBefore),
+    after: convertBalanceFromMistToSui(balanceAfter),
   };
 
   return balances;
 }
-
-const _formatBalance = (balance: CoinBalance) => {
-  return Number.parseInt(balance.totalBalance) / Number(MIST_PER_SUI);
-};
 
 export const faucetTool = {
   name: 'faucet',
@@ -74,8 +69,8 @@ export const faucetTool = {
     network: z.enum(['testnet', 'devnet', 'localnet'] as const).default('devnet'),
   }).shape,
   cb: async (args: { address: string; network: string }) => {
-    const suiClient = new SuiClient({ url: getFullnodeUrl(args.network as SuiNetwork) });
-    const balances = await getFaucet(args.address, args.network as SuiNetwork, suiClient);
+    const suiClient = new SuiClient({ url: getFullnodeUrl(args.network as SuiFaucetNetwork) });
+    const balances = await getFaucet(args.address, args.network as SuiFaucetNetwork, suiClient);
 
     return {
       content: [
