@@ -64,6 +64,20 @@ Claude
 
 > request SUI for 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
 
+### Check SUI balance Tool
+
+This tool allows you to check SUI token balance for any address on the Sui network, with the following features:
+
+- ✨ Support for multiple network environments (mainnet, testnet, devnet, localnet)
+- 🔄 Real-time balance querying
+- 🔢 Accurate balance conversion from MIST to SUI
+
+### Usage Example
+
+Claude
+
+> check SUI balance for 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
+
 ## 📚 Documentation
 
 - [Sui Developer Documentation](https://docs.sui.io/)
