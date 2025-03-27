@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { getFullnodeUrl, SuiClient, CoinBalance } from '@mysten/sui/client';
 import { getFaucetHost, requestSuiFromFaucetV1 } from '@mysten/sui/faucet';
-import { SuiFaucetNetwork } from '../types.js';
+import { SuiFaucetNetwork, SUI_FAUCET_NETWORKS } from '../types.js';
 import { convertBalanceFromMistToSui } from '../utils/balance.js';
 
 export async function getFaucet(
@@ -66,7 +66,7 @@ export const faucetTool = {
   description: 'Get faucet from sui networks',
   paramsSchema: z.object({
     address: z.string(),
-    network: z.enum(['testnet', 'devnet', 'localnet'] as const).default('devnet'),
+    network: z.enum(SUI_FAUCET_NETWORKS).default('devnet'),
   }).shape,
   cb: async (args: { address: string; network: string }) => {
     const suiClient = new SuiClient({ url: getFullnodeUrl(args.network as SuiFaucetNetwork) });
