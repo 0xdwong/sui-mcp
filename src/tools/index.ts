@@ -1,5 +1,7 @@
 import { faucetTool } from './faucet.js';
+import { balanceTool } from './balance.js';
 
-export const tools = {
+export default {
   faucet: faucetTool,
+  balance: balanceTool,
 };

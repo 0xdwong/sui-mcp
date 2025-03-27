@@ -1,6 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { tools } from './tools/index.js';
+import tools from './tools/index.js';
 
 // Create an MCP server
 const server = new McpServer({
@@ -10,6 +10,7 @@ const server = new McpServer({
 
 const MCPTools = {
   faucet: tools.faucet,
+  balance: tools.balance,
 };
 
 for (const tool of Object.values(MCPTools)) {
