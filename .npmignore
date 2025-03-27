@@ -1,0 +1,45 @@
+# Source files
+src/
+tests/
+examples/
+
+# Config files
+.eslintrc*
+.prettierrc*
+.gitignore
+.cursorignore
+tsconfig.json
+jest.config.js
+eslint.config.js
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Development files
+coverage/
+.nyc_output/
+*.log
+.env*
+.vscode/
+.idea/
+
+# Test files
+__tests__/
+*.test.ts
+*.spec.ts
+
+# Temporary files
+*.tsbuildinfo
+.DS_Store
+.cache
+
+# Git files
+.git/
+.github/
+
+# Build process
+node_modules/
+yarn-debug.log*
+yarn-error.log* 
