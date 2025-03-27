@@ -9,7 +9,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "build": "tsc && node -e \"require('fs').chmodSync('build/src/index.js', '755')\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "mocha --loader=ts-node/esm -r tests/mocha.setup.ts 'tests/**/*.test.ts' --watch",
     "test:coverage": "nyc yarn test",
