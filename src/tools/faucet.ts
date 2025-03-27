@@ -7,29 +7,54 @@ type SuiNetwork = 'testnet' | 'devnet' | 'localnet';
 
 export async function getFaucet(
   address: string,
-  network: SuiNetwork
+  network: SuiNetwork,
+  client: SuiClient
 ): Promise<{ before: number; after: number } | null> {
-  const suiClient = new SuiClient({ url: getFullnodeUrl(network) });
+  let balanceBefore: CoinBalance;
+  let balanceAfter: CoinBalance;
 
-  // 获取领水前余额
-  const balanceBefore = await suiClient.getBalance({
-    owner: address,
-  });
 
-  // 领水
-  const success = await _requestFaucet(address, network);
-  if (!success) return null;
+  try {
+    // Get balance before faucet request
+    balanceBefore = await client.getBalance({
+      owner: address,
+    });
+  } catch (error) {
+    console.error('Failed to get initial balance:', error);
+    return null;
+  }
 
-  // 等待 x 秒后再查询余额（测试网出块较慢）
+  // Request faucet
+  try {
+    const response = await requestSuiFromFaucetV1({
+      host: getFaucetHost(network),
+      recipient: address,
+    });
+
+    // Check if response is valid
+    if (!response || response.error) {
+      console.error('Invalid response from faucet:', response?.error || 'No response');
+      return null;
+    }
+  } catch (error) {
+    console.error('Faucet request failed:', error);
+    return null;
+  }
+
+  // Wait for x seconds before querying balance (testnet block time is slow)
   const waitSeconds = 9;
-  await new Promise(resolve => {
-    setTimeout(resolve, waitSeconds * 1000);
-  });
+  await new Promise(resolve => setTimeout(resolve, waitSeconds * 1000));
 
-  // 获取领水后余额
-  const balanceAfter = await suiClient.getBalance({
-    owner: address,
-  });
+  try {
+    // Get balance after faucet request
+    balanceAfter = await client.getBalance({
+      owner: address,
+    });
+
+  } catch (error) {
+    console.error('Failed to get final balance:', error);
+    return null;
+  }
 
   const balances = {
     before: _formatBalance(balanceBefore),
@@ -37,23 +62,6 @@ export async function getFaucet(
   };
 
   return balances;
-}
-
-async function _requestFaucet(address: string, network: SuiNetwork) {
-  let success = false;
-  try {
-    await requestSuiFromFaucetV1({
-      host: getFaucetHost(network),
-      recipient: address,
-    });
-    success = true;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-
-  return success;
 }
 
 const _formatBalance = (balance: CoinBalance) => {
@@ -68,7 +76,8 @@ export const faucetTool = {
     network: z.enum(['testnet', 'devnet', 'localnet'] as const).default('devnet'),
   }).shape,
   cb: async (args: { address: string; network: string }) => {
-    const balances = await getFaucet(args.address, args.network as SuiNetwork);
+    const suiClient = new SuiClient({ url: getFullnodeUrl(args.network as SuiNetwork) });
+    const balances = await getFaucet(args.address, args.network as SuiNetwork, suiClient);
 
     return {
       content: [
