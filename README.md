@@ -39,13 +39,11 @@ You can easily access this file via the Claude Desktop app by navigating to Clau
 
    ```json
    {
-      "sui-tools": {
-          "command": "node",
-          "args": [
-              "absolute-path-to-build.js"
-          ]
-      }
-    }
+     "sui-tools": {
+       "command": "node",
+       "args": ["absolute-path-to-build.js"]
+     }
+   }
    ```
 
 3. Restart Claude Desktop for the changes to take effect.
@@ -63,6 +61,7 @@ This tool is used to obtain test tokens on the Sui test network, with the follow
 ### Usage Example
 
 Claude
+
 > request SUI for 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
 
 ## 📚 Documentation

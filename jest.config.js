@@ -14,8 +14,6 @@ export default {
       },
     ],
   },
-  testMatch: [
-    '**/tests/**/*.test.ts',
-  ],
+  testMatch: ['**/tests/**/*.test.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-}; 
+};

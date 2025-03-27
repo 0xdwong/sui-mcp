@@ -13,7 +13,6 @@ export async function getFaucet(
   let balanceBefore: CoinBalance;
   let balanceAfter: CoinBalance;
 
-
   try {
     // Get balance before faucet request
     balanceBefore = await client.getBalance({
@@ -50,7 +49,6 @@ export async function getFaucet(
     balanceAfter = await client.getBalance({
       owner: address,
     });
-
   } catch (error) {
     console.error('Failed to get final balance:', error);
     return null;

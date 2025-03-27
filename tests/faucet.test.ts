@@ -31,11 +31,14 @@ describe('getFaucet', () => {
       getBalance: jest.fn(),
     } as any;
     // Get reference to mocked function
-    mockRequestSuiFromFaucetV1 = (jest.requireMock('@mysten/sui/faucet') as { requestSuiFromFaucetV1: jest.MockedFunction<() => Promise<FaucetResponse>> }).requestSuiFromFaucetV1;
+    mockRequestSuiFromFaucetV1 = (
+      jest.requireMock('@mysten/sui/faucet') as {
+        requestSuiFromFaucetV1: jest.MockedFunction<() => Promise<FaucetResponse>>;
+      }
+    ).requestSuiFromFaucetV1;
   });
 
-  afterEach(() => {
-  });
+  afterEach(() => {});
 
   it('should successfully get faucet tokens', async () => {
     // Setup timer mocks
@@ -47,20 +50,20 @@ describe('getFaucet', () => {
         totalBalance: '1000000000',
         coinType: '0x2::sui::SUI',
         coinObjectCount: 1,
-        lockedBalance: { number: '0' }
+        lockedBalance: { number: '0' },
       }) // 1 SUI before
       .mockResolvedValueOnce({
         totalBalance: '2000000000',
         coinType: '0x2::sui::SUI',
         coinObjectCount: 1,
-        lockedBalance: { number: '0' }
+        lockedBalance: { number: '0' },
       }); // 2 SUI after
 
     // Mock successful faucet request
     mockRequestSuiFromFaucetV1.mockResolvedValueOnce({});
 
     // Mock setTimeout to execute immediately
-    jest.spyOn(global, 'setTimeout').mockImplementation((callback) => {
+    jest.spyOn(global, 'setTimeout').mockImplementation(callback => {
       callback();
       return {} as any;
     });
@@ -84,11 +87,7 @@ describe('getFaucet', () => {
     // Mock getBalance to throw an error
     mockSuiClient.getBalance.mockRejectedValueOnce(new Error('Failed to get balance'));
 
-    const result = await getFaucet(
-      '0x1234567890abcdef',
-      'devnet',
-      mockSuiClient
-    );
+    const result = await getFaucet('0x1234567890abcdef', 'devnet', mockSuiClient);
 
     expect(result).toBeNull();
   });
@@ -99,17 +98,13 @@ describe('getFaucet', () => {
       totalBalance: '1000000000',
       coinType: '0x2::sui::SUI',
       coinObjectCount: 1,
-      lockedBalance: { number: '0' }
+      lockedBalance: { number: '0' },
     });
 
     // Mock faucet request to throw an error
     mockRequestSuiFromFaucetV1.mockRejectedValueOnce(new Error('Faucet request failed'));
 
-    const result = await getFaucet(
-      '0x1234567890abcdef',
-      'devnet',
-      mockSuiClient
-    );
+    const result = await getFaucet('0x1234567890abcdef', 'devnet', mockSuiClient);
 
     expect(result).toBeNull();
   });
@@ -121,18 +116,14 @@ describe('getFaucet', () => {
         totalBalance: '1000000000',
         coinType: '0x2::sui::SUI',
         coinObjectCount: 1,
-        lockedBalance: { number: '0' }
+        lockedBalance: { number: '0' },
       })
       .mockRejectedValueOnce(new Error('Failed to get final balance'));
 
     // Mock successful faucet request
     mockRequestSuiFromFaucetV1.mockResolvedValueOnce({});
 
-    const result = await getFaucet(
-      '0x1234567890abcdef',
-      'devnet',
-      mockSuiClient
-    );
+    const result = await getFaucet('0x1234567890abcdef', 'devnet', mockSuiClient);
 
     expect(result).toBeNull();
   });
@@ -143,18 +134,14 @@ describe('getFaucet', () => {
       totalBalance: '1000000000',
       coinType: '0x2::sui::SUI',
       coinObjectCount: 1,
-      lockedBalance: { number: '0' }
+      lockedBalance: { number: '0' },
     });
 
     // Mock faucet request with error response
     mockRequestSuiFromFaucetV1.mockResolvedValueOnce({ error: 'Some error' });
 
-    const result = await getFaucet(
-      '0x1234567890abcdef',
-      'devnet',
-      mockSuiClient
-    );
+    const result = await getFaucet('0x1234567890abcdef', 'devnet', mockSuiClient);
 
     expect(result).toBeNull();
   });
-}); 
+});

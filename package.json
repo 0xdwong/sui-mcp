@@ -12,7 +12,11 @@
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "mocha --loader=ts-node/esm -r tests/mocha.setup.ts 'tests/**/*.test.ts' --watch",
-    "test:coverage": "nyc yarn test"
+    "test:coverage": "nyc yarn test",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "files": [
     "build"
@@ -25,6 +29,12 @@
     "nyc": "^17.1.0",
     "ts-jest": "^29.3.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "@typescript-eslint/parser": "^8.27.0",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.3"
   }
 }
