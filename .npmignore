@@ -1,8 +1,5 @@
 # Source files
 src/
-tests/
-examples/
-
 # Config files
 .eslintrc*
 .prettierrc*
