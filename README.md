@@ -1,4 +1,4 @@
-# MCP Sui Tools
+# Sui MCP Tools
 
 This is a MCP (Model Context Protocol) toolkit based on the Sui blockchain. The project provides functionality to interact with the Sui blockchain and integrates the MCP SDK to implement model context protocol features.
 
@@ -9,44 +9,61 @@ This is a MCP (Model Context Protocol) toolkit based on the Sui blockchain. The 
 - Support for multiple network environments (testnet, devnet)
 - Complete build scripts and development toolchain
 
-## 📦 Installation
+## 📦 Installation & Configuration
 
+There are two ways to install and configure Sui MCP Tools:
+
+### Method 1: Using npx (Recommended)
+
+This is the simplest way - just add the following configuration to your Claude Desktop config file:
+
+```json
+{
+  "mcpServers": {
+    "sui-tools": {
+      "command": "npx",
+      "args": ["-y", "sui-mcp@latest"]
+    }
+  }
+}
+```
+
+### Method 2: Local Build
+
+1. Clone and install dependencies:
 ```bash
-# Install dependencies using yarn
+git clone https://github.com/0xdwong/sui-mcp.git
+cd sui-mcp
 yarn install
 ```
 
-## 🔨 Build
-
+2. Build the project:
 ```bash
-# Build the project
 yarn build
 ```
 
-## Configure MCP Server
+3. Configure Claude Desktop with your local build:
+```json
+{
+  "mcpServers": {
+    "sui-tools": {
+      "command": "node",
+      "args": ["<absolute-path-to-your-project>/build/index.js"]
+    }
+  }
+}
+```
 
-### To add this MCP server to Claude Desktop:
+### Configuration Location
 
-1. Create or edit the Claude Desktop configuration file at:
+The Claude Desktop configuration file is located at:
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
 
-   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-   - Linux: `~/.config/Claude/claude_desktop_config.json`
+You can access this file via Claude Desktop: Claude > Settings > Developer > Edit Config
 
-You can easily access this file via the Claude Desktop app by navigating to Claude > Settings > Developer > Edit Config.
-
-2. Add the following configuration:
-
-   ```json
-   {
-     "sui-tools": {
-       "command": "node",
-       "args": ["absolute-path-to-build.js"]
-     }
-   }
-   ```
-
-3. Restart Claude Desktop for the changes to take effect.
+Restart Claude Desktop for the changes to take effect.
 
 ## 🛠 Available Tools
 

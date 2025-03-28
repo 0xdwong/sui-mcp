@@ -1,4 +1,4 @@
-# MCP Sui Tools
+# Sui MCP Tools
 
 这是一个基于 Sui 区块链的 MCP（Model Context Protocol）工具集。该项目提供了与 Sui 区块链交互的功能，并集成了 MCP SDK 来实现模型上下文协议的功能。
 
@@ -9,44 +9,61 @@
 - 支持多网络环境（测试网、开发网）
 - 提供完整的构建脚本和开发工具链
 
-## 📦 安装
+## 📦 安装与配置
 
+Sui MCP Tools 提供两种安装和配置方式：
+
+### 方式一：使用 npx（推荐）
+
+这是最简单的方式 - 只需在 Claude Desktop 配置文件中添加以下配置：
+
+```json
+{
+  "mcpServers": {
+    "sui-tools": {
+      "command": "npx",
+      "args": ["-y", "sui-mcp@latest"]
+    }
+  }
+}
+```
+
+### 方式二：本地构建
+
+1. 克隆代码并安装依赖：
 ```bash
-# 使用 yarn 安装依赖
+git clone https://github.com/0xdwong/sui-mcp.git
+cd sui-mcp
 yarn install
 ```
 
-## 🔨 构建
-
+2. 构建项目：
 ```bash
-# 构建项目
 yarn build
 ```
 
-## 配置 MCP 服务器
+3. 配置 Claude Desktop，指向本地构建文件：
+```json
+{
+  "mcpServers": {
+    "sui-tools": {
+      "command": "node",
+      "args": ["<absolute-path-to-your-project>/build/index.js"]
+    }
+  }
+}
+```
 
-### To add this MCP server to Claude Desktop:
+### 配置文件位置
 
-1. Create or edit the Claude Desktop configuration file at:
+Claude Desktop 配置文件位置：
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
 
-   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-   - Linux: `~/.config/Claude/claude_desktop_config.json`
+你可以通过 Claude Desktop 访问此文件：Claude > Settings > Developer > Edit Config
 
-You can easily access this file via the Claude Desktop app by navigating to Claude > Settings > Developer > Edit Config.
-
-2. Add the following configuration:
-
-   ```json
-   {
-     "sui-tools": {
-       "command": "node",
-       "args": ["absolute-path-to-build.js"]
-     }
-   }
-   ```
-
-3. Restart Claude Desktop for the changes to take effect.
+重新启动 Claude Desktop 以使更改生效。
 
 ## 🛠 可用工具
 
