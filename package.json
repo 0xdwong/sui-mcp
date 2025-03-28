@@ -1,15 +1,17 @@
 {
   "name": "sui-mcp",
-  "version": "0.1.1",
-  "main": "src/index.js",
+  "version": "0.1.4",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.6.1",
     "@mysten/sui": "^1.24.0"
   },
   "type": "module",
+  "bin": {
+    "sui-mcp": "./build/index.js"
+  },
   "scripts": {
-    "build": "tsc && node -e \"require('fs').chmodSync('build/src/index.js', '755')\"",
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "mocha --loader=ts-node/esm -r tests/mocha.setup.ts 'tests/**/*.test.ts' --watch",
     "test:coverage": "nyc yarn test",
@@ -19,7 +21,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "files": [
-    "build/src",
+    "build",
     "README.md",
     "LICENSE"
   ],
