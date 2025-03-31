@@ -20,7 +20,7 @@
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "mocha --loader=ts-node/esm -r tests/mocha.setup.ts 'tests/**/*.test.ts' --watch",
-    "test:coverage": "nyc yarn test",
+    "test:coverage": "NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --coverage",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
@@ -32,6 +32,7 @@
     "LICENSE"
   ],
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@modelcontextprotocol/inspector": "^0.6.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.9",

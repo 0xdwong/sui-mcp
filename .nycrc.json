@@ -1,0 +1,13 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "all": true,
+  "check-coverage": true,
+  "extension": [".ts"],
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.d.ts", "**/*.test.ts", "coverage/**", "tests/**", "build/**"],
+  "require": ["ts-node/register"],
+  "sourceMap": true,
+  "instrument": true,
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+  "esModules": true
+}
