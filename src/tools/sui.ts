@@ -15,11 +15,6 @@ export async function transferSUI(
   sender: Keypair,
   client: SuiClient
 ): Promise<[Error | null, string]> {
-  const keypair = getKeypairFromPrivateKey(config.sui.privateKey);
-  if (!keypair) {
-    return [new Error('Invalid or missing private key'), ''];
-  }
-
   if (amounts.length !== recipients.length) {
     return [new Error('Amounts and recipients must have the same length'), ''];
   }
@@ -85,12 +80,25 @@ export const suiTool = {
   description: 'transfer SUI to single or multiple addresses',
   paramsSchema: z.object({
     network: z.enum(SUI_NETWORKS).default('mainnet'),
-    amounts: z.array(z.string()),
-    recipients: z.array(z.string()),
+    amounts: z.array(z.string()).nonempty(),
+    recipients: z.array(z.string()).nonempty(),
   }).shape,
   cb: async (args: { network: string; amounts: string[]; recipients: string[] }) => {
     const suiClient = new SuiClient({ url: getFullnodeUrl(args.network as SuiNetwork) });
+
+    if (!config.sui.privateKey) {
+      return {
+        content: [{ type: 'text' as const, text: 'Missing private key, please set it in config' }],
+      };
+    }
+
     const sender = getKeypairFromPrivateKey(config.sui.privateKey) as Keypair;
+
+    if (!sender) {
+      return {
+        content: [{ type: 'text' as const, text: 'Invalid private key, please check your config' }],
+      };
+    }
 
     const amounts = args.amounts.map((amount: string) => BigInt(amount));
     const [error, digest] = await transferSUI(amounts, args.recipients, sender, suiClient);
