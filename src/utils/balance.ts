@@ -1,4 +1,4 @@
-import { CoinBalance } from '@mysten/sui/client';
+import { CoinBalance, SuiClient } from '@mysten/sui/client';
 import { MIST_PER_SUI } from '@mysten/sui/utils';
 
 /**
@@ -8,4 +8,26 @@ import { MIST_PER_SUI } from '@mysten/sui/utils';
  */
 export const convertBalanceFromMistToSui = (balance: CoinBalance): number => {
   return Number.parseInt(balance.totalBalance) / Number(MIST_PER_SUI);
+};
+
+/**
+ * Format SUI balance from SUI to MIST
+ * @param address Address to get balance
+ * @param client SuiClient
+ * @returns Balance in MIST
+ */
+export const getBalanceInMist = async (
+  address: string,
+  client: SuiClient
+): Promise<bigint | null> => {
+  try {
+    const balance = await client.getBalance({
+      owner: address,
+      coinType: '0x2::sui::SUI',
+    });
+    return BigInt(balance.totalBalance);
+  } catch (error) {
+    console.error('Error getting balance:', error);
+    return null;
+  }
 };

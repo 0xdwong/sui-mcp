@@ -13,6 +13,7 @@ const server = new McpServer({
 const MCPTools = {
   faucet: tools.faucet,
   balance: tools.balance,
+  sui: tools.sui,
 };
 
 for (const tool of Object.values(MCPTools)) {
