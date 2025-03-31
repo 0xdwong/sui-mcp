@@ -31,6 +31,7 @@ This is the simplest way - just add the following configuration to your Claude D
 ### Method 2: Local Build
 
 1. Clone and install dependencies:
+
 ```bash
 git clone https://github.com/0xdwong/sui-mcp.git
 cd sui-mcp
@@ -38,11 +39,13 @@ yarn install
 ```
 
 2. Build the project:
+
 ```bash
 yarn build
 ```
 
 3. Configure Claude Desktop with your local build:
+
 ```json
 {
   "mcpServers": {
@@ -57,6 +60,7 @@ yarn build
 ### Configuration Location
 
 The Claude Desktop configuration file is located at:
+
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 - Linux: `~/.config/Claude/claude_desktop_config.json`
@@ -67,33 +71,17 @@ Restart Claude Desktop for the changes to take effect.
 
 ## 🛠 Available Tools
 
-### 1. Testnet Faucet Tool
+- Testnet Faucet
 
-This tool is used to obtain test tokens on the Sui test network, with the following key features:
+  > eg: request SUI for 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
 
-- ✨ Support for multiple network environments (testnet, devnet)
-- 🔄 Automated acquisition process
-- 🛡 Built-in error handling mechanism
+- Check SUI balance
 
-### Usage Example
+  > eg: check SUI balance for 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
 
-Claude
+- Transfer SUI
 
-> request SUI for 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
-
-### Check SUI balance Tool
-
-This tool allows you to check SUI token balance for any address on the Sui network, with the following features:
-
-- ✨ Support for multiple network environments (mainnet, testnet, devnet, localnet)
-- 🔄 Real-time balance querying
-- 🔢 Accurate balance conversion from MIST to SUI
-
-### Usage Example
-
-Claude
-
-> check SUI balance for 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
+  > eg: transfer 1000000 MIST to 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
 
 ## 📚 Documentation
 
