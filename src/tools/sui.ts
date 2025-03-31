@@ -34,7 +34,7 @@ export async function transferSUI(
   const senderAddress = sender.toSuiAddress();
 
   const senderBalance = await getBalanceInMist(senderAddress, client);
-  if (!senderBalance) {
+  if (senderBalance === null) {
     return [new Error('Failed to get balance'), ''];
   }
 
