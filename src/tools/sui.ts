@@ -77,13 +77,13 @@ export async function transferSUI(
 
 export const suiTool = {
   name: 'sui-transfer',
-  description: 'transfer SUI to single or multiple addresses',
+  description: 'transfer SUI(in mist) to single or multiple addresses',
   paramsSchema: z.object({
     network: z.enum(SUI_NETWORKS).default('mainnet'),
-    amounts: z.array(z.string()).nonempty(),
+    amounts: z.array(z.number()).nonempty(),
     recipients: z.array(z.string()).nonempty(),
   }).shape,
-  cb: async (args: { network: string; amounts: string[]; recipients: string[] }) => {
+  cb: async (args: { network: string; amounts: number[]; recipients: string[] }) => {
     const suiClient = new SuiClient({ url: getFullnodeUrl(args.network as SuiNetwork) });
 
     if (!config.sui.privateKey) {
@@ -100,7 +100,7 @@ export const suiTool = {
       };
     }
 
-    const amounts = args.amounts.map((amount: string) => BigInt(amount));
+    const amounts = args.amounts.map((amount: number) => BigInt(amount));
     const [error, digest] = await transferSUI(amounts, args.recipients, sender, suiClient);
     const message = error ? error.message : `Transfer successful: ${digest}`;
 
