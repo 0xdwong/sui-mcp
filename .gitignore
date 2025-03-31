@@ -135,4 +135,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+.vscode/
+.cursorignore
+
+temp/
+scripts/
 build
