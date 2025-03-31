@@ -81,7 +81,7 @@ Restart Claude Desktop for the changes to take effect.
 
 - Transfer SUI
 
-  > eg: transfer 1000000 MIST to 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
+  > eg: transfer 1 SUI to 0x9eb94b1c301505d188f1b97914208b31a5419b57b2a3571169ad2165d41c2ffa
 
 ## 📚 Documentation
 
