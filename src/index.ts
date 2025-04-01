@@ -14,6 +14,7 @@ const MCPTools = {
   faucet: tools.faucet,
   balance: tools.balance,
   sui: tools.sui,
+  account: tools.account,
 };
 
 for (const tool of Object.values(MCPTools)) {

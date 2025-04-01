@@ -14,3 +14,15 @@ export function getKeypairFromPrivateKey(privateKey: string) {
     return null;
   }
 }
+
+export function getRandomKeypair() {
+  const keypair = new Ed25519Keypair();
+  return keypair;
+}
+
+export function getKeypairFromMnemonic(mnemonic: string) {
+  const path = "m/44'/784'/0'/0'/0'"; // default path
+
+  const keypair = Ed25519Keypair.deriveKeypair(mnemonic, path);
+  return keypair;
+}
