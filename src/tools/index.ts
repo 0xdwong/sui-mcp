@@ -1,11 +1,6 @@
 import { faucetTool } from './faucet.js';
-import { balanceTool } from './balance.js';
-import { suiTool } from './sui.js';
-import { accountTool } from './account.js';
+import { suiBalanceTool } from './sui-balance.js';
+import { suiTransferTool } from './sui-transfer.js';
+import { randomSuiAccountTool } from './random-sui-account.js';
 
-export default {
-  faucet: faucetTool,
-  balance: balanceTool,
-  sui: suiTool,
-  account: accountTool,
-};
+export default [faucetTool, suiBalanceTool, suiTransferTool, randomSuiAccountTool];

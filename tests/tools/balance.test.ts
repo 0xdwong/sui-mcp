@@ -1,5 +1,5 @@
 import { SuiClient } from '@mysten/sui/client';
-import { getBalance } from '../../src/tools/balance.js';
+import { getBalance } from '../../src/tools/sui-balance.js';
 import { jest } from '@jest/globals';
 
 // Mock the required modules

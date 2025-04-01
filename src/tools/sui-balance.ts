@@ -21,8 +21,8 @@ export async function getBalance(address: string, client: SuiClient): Promise<nu
   return balance;
 }
 
-export const balanceTool = {
-  name: 'balance',
+export const suiBalanceTool = {
+  name: 'sui-balance',
   description: 'Get balance of an address from sui networks',
   paramsSchema: z.object({
     address: z.string(),

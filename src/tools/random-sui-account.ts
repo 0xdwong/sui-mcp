@@ -11,7 +11,7 @@ export function genRandomAccount() {
 }
 
 export function genAccountFromMnemonic(mnemonic: string, num: number = 1) {
-  const keypair = getKeypairFromMnemonic(mnemonic, i);
+  const keypair = getKeypairFromMnemonic(mnemonic);
 
   const accountInfo = _getAccountInfoFromKeypair(keypair);
 
@@ -32,7 +32,7 @@ function _getAccountInfoFromKeypair(keypair: Ed25519Keypair) {
   return { publicKey, privateKey, address };
 }
 
-export const accountTool = {
+export const randomSuiAccountTool = {
   name: 'random-sui-account',
   description: 'Create random SUI account, do not use it in production.',
   paramsSchema: z.object({

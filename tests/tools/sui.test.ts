@@ -1,6 +1,6 @@
 import { SuiClient } from '@mysten/sui/client';
 import { jest } from '@jest/globals';
-import { transferSUI } from '../../src/tools/sui';
+import { transferSUI } from '../../src/tools/sui-transfer.js';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 
 // Mock the required modules

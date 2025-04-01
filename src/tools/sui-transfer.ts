@@ -75,7 +75,7 @@ export async function transferSUI(
   }
 }
 
-export const suiTool = {
+export const suiTransferTool = {
   name: 'sui-transfer',
   description: 'transfer SUI(in mist) to single or multiple addresses',
   paramsSchema: z.object({

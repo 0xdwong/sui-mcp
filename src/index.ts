@@ -10,14 +10,7 @@ const server = new McpServer({
   version: '1.0.0',
 });
 
-const MCPTools = {
-  faucet: tools.faucet,
-  balance: tools.balance,
-  sui: tools.sui,
-  account: tools.account,
-};
-
-for (const tool of Object.values(MCPTools)) {
+for (const tool of tools) {
   server.tool(tool.name, tool.description, tool.paramsSchema, tool.cb);
 }
 
