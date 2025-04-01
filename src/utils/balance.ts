@@ -6,8 +6,12 @@ import { MIST_PER_SUI } from '@mysten/sui/utils';
  * @param balance Balance in MIST
  * @returns Balance in SUI
  */
-export const convertBalanceFromMistToSui = (balance: CoinBalance): number => {
+export const convertCoinBalanceFromMistToSui = (balance: CoinBalance): number => {
   return Number.parseInt(balance.totalBalance) / Number(MIST_PER_SUI);
+};
+
+export const convertMistToSui = (mist: bigint): number => {
+  return Number(mist) / Number(MIST_PER_SUI);
 };
 
 /**
