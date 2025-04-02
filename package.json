@@ -19,6 +19,7 @@
   },
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "inspect": "npx @modelcontextprotocol/inspector node /Users/dwong/mydoc/code/dwong/suis/sui-mcp/build/index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "mocha --loader=ts-node/esm -r tests/mocha.setup.ts 'tests/**/*.test.ts' --watch",
     "test:coverage": "NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --coverage",
