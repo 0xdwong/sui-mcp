@@ -22,7 +22,7 @@ export function getRandomKeypair() {
 }
 
 export function getKeypairFromMnemonic(mnemonic: string, idx: number = 0) {
-  const path = `m/44'/784'/0'/0/${idx}`;
+  const path = `m/44'/784'/0'/0'/${idx}'`;
 
   const keypair = Ed25519Keypair.deriveKeypair(mnemonic, path);
   return keypair;
