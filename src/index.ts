@@ -2,6 +2,7 @@
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { z } from 'zod';
 import tools from './tools/index.js';
 
 // Create an MCP server
@@ -11,7 +12,9 @@ const server = new McpServer({
 });
 
 for (const tool of tools) {
-  server.tool(tool.name, tool.description, tool.paramsSchema, tool.cb);
+  const schema = tool.paramsSchema as z.ZodObject<any>;
+  const cb = ((args: any) => tool.cb(args)) as any;
+  server.tool(tool.name, tool.description, schema.shape, cb);
 }
 
 async function main() {

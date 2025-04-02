@@ -4,34 +4,32 @@ import {
   getKeypairFromMnemonic,
   getAccountInfoFromKeypair,
 } from '../../utils/keypair.js';
+import { BaseTool } from '../base.js';
 
-async function cb(args: { num: number }) {
-  const accountInfos = [];
-  const mnemonic = genRandomMnemonic();
+const randomAccountParamsSchema = z.object({
+  num: z.number().default(1),
+});
 
-  for (let i = 0; i < args.num; i++) {
-    const keypair = getKeypairFromMnemonic(mnemonic, i);
+type RandomAccountParams = z.output<typeof randomAccountParamsSchema>;
 
-    const accountInfo = getAccountInfoFromKeypair(keypair);
+export class RandomSuiAccountTool extends BaseTool<RandomAccountParams> {
+  name = 'random-sui-account';
+  description = 'Create random SUI account, do not use it in production.';
+  paramsSchema = randomAccountParamsSchema;
 
-    accountInfos.push(accountInfo);
+  async cb(args: RandomAccountParams) {
+    const accountInfos = [];
+    const mnemonic = genRandomMnemonic();
+
+    for (let i = 0; i < args.num; i++) {
+      const keypair = getKeypairFromMnemonic(mnemonic, i);
+      const accountInfo = getAccountInfoFromKeypair(keypair);
+      accountInfos.push(accountInfo);
+    }
+
+    return this.createTextResponse(JSON.stringify(accountInfos));
   }
-
-  return {
-    content: [
-      {
-        type: 'text',
-        text: JSON.stringify(accountInfos),
-      },
-    ],
-  };
 }
 
-export default {
-  name: 'random-sui-account',
-  description: 'Create random SUI account, do not use it in production.',
-  paramsSchema: z.object({
-    num: z.number().default(1),
-  }).shape,
-  cb: cb,
-};
+// Export default instance for normal usage
+export default new RandomSuiAccountTool();
