@@ -28,7 +28,8 @@ export async function batchTransferSUI(
   const senderBalance = await getBalanceInMist(senderAddress, client);
   if (senderBalance === null) throw new Error('Failed to get balance');
 
-  if (senderBalance <= sumAmountsInMist) throw new Error('Insufficient balance');
+  if (senderBalance <= sumAmountsInMist)
+    throw new Error(`Insufficient balance: ${senderAddress}, balance: ${senderBalance}`);
 
   // Create new transaction
   const tx = new Transaction();
