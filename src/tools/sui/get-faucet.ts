@@ -35,5 +35,4 @@ export class SuiFaucetTool extends BaseTool<FaucetParams> {
   }
 }
 
-// Export default instance for normal usage
 export default new SuiFaucetTool();

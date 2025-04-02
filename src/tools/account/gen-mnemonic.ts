@@ -24,5 +24,4 @@ export class GenMnemonicTool extends BaseTool<MnemonicParams> {
   }
 }
 
-// Export default instance for normal usage
 export default new GenMnemonicTool();

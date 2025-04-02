@@ -28,6 +28,7 @@ export class SuiBalanceTool extends BaseTool<BalanceParams> {
     const getBalanceResults = await Promise.all(promises);
     const balances = getBalanceResults.map((balanceInMist, index) => {
       if (balanceInMist === null) return null;
+
       const balanceInSui = convertMistToSui(balanceInMist);
       return {
         address: addresses[index],
@@ -40,5 +41,4 @@ export class SuiBalanceTool extends BaseTool<BalanceParams> {
   }
 }
 
-// Export default instance for normal usage
 export default new SuiBalanceTool();

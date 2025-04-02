@@ -45,5 +45,4 @@ export class SuiTransferTool extends BaseTool<TransferParams> {
   }
 }
 
-// Export default instance for normal usage
 export default new SuiTransferTool();

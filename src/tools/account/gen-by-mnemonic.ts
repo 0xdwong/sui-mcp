@@ -36,5 +36,4 @@ export class GenSuiAccountsByMnemonicTool extends BaseTool<GenByMnemonicParams> 
   }
 }
 
-// Export default instance for normal usage
 export default new GenSuiAccountsByMnemonicTool();

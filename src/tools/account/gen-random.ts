@@ -31,5 +31,4 @@ export class RandomSuiAccountTool extends BaseTool<RandomAccountParams> {
   }
 }
 
-// Export default instance for normal usage
 export default new RandomSuiAccountTool();

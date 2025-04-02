@@ -34,5 +34,4 @@ export class GetAccountInfoByPrivateKeyTool extends BaseTool<GetInfoByPrivateKey
   }
 }
 
-// Export default instance for normal usage
 export default new GetAccountInfoByPrivateKeyTool();
