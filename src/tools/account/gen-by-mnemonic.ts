@@ -23,7 +23,7 @@ async function cb(args: { mnemonic: string; num: number }) {
   return {
     content: [
       {
-        type: 'text' as const,
+        type: 'text',
         text: JSON.stringify(result),
       },
     ],

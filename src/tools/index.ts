@@ -1,6 +1,6 @@
-import { faucetTool } from './sui/get-faucet.js';
-import { suiBalanceTool } from './sui/get-balance.js';
-import { suiTransferTool } from './sui/transfer.js';
+import faucetTool from './sui/get-faucet.js';
+import suiBalanceTool from './sui/get-balance.js';
+import suiTransferTool from './sui/transfer.js';
 import randomSuiAccountTool from './account/gen-random.js';
 import genMnemonicTool from './account/gen-mnemonic.js';
 import genSuiAccountsByMnemonicTool from './account/gen-by-mnemonic.js';

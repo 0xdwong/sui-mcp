@@ -10,7 +10,7 @@ async function cb(args: { num: number }) {
   return {
     content: [
       {
-        type: 'text' as const,
+        type: 'text',
         text: JSON.stringify(mnemonics),
       },
     ],

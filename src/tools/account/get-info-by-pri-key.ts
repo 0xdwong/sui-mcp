@@ -21,7 +21,7 @@ async function cb(args: { privateKey: string }) {
   return {
     content: [
       {
-        type: 'text' as const,
+        type: 'text',
         text: JSON.stringify(accountInfo),
       },
     ],

@@ -28,14 +28,14 @@ async function cb(args: { network: string; amounts: number[]; recipients: string
   return {
     content: [
       {
-        type: 'text' as const,
+        type: 'text',
         text: `Transfer ${digest ? 'successful' : 'failed'}: digest: '${digest}', error: '${errMsg}'`,
       },
     ],
   };
 }
 
-export const suiTransferTool = {
+export default {
   name: 'sui-transfer',
   description: 'transfer SUI(in mist) to single or multiple addresses',
   paramsSchema: z.object({

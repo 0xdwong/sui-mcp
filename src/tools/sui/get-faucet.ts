@@ -21,14 +21,14 @@ async function cb(args: { addresses: string[]; network: string }) {
   return {
     content: [
       {
-        type: 'text' as const,
+        type: 'text',
         text: JSON.stringify(result),
       },
     ],
   };
 }
 
-export const faucetTool = {
+export default {
   name: 'faucet',
   description: 'Get faucet from sui networks',
   paramsSchema: z.object({
