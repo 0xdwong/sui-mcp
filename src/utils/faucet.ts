@@ -9,15 +9,16 @@ export async function getFaucet(address: string, network: SuiFaucetNetwork): Pro
       recipient: address,
     });
 
-    // Check if response is valid
-    if (!response || response.error) {
-      console.error('Invalid response from faucet:', response?.error || 'No response');
+    // Check if response has error
+    if (response?.error) {
+      console.error('Invalid response from faucet:', response.error);
       return false;
     }
+
+    return true;
   } catch (error) {
-    console.error('Faucet request failed:', error as Error);
+    console.error('====Faucet request failed:', error);
+
     return false;
   }
-
-  return true;
 }
