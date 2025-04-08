@@ -24,11 +24,10 @@ export class SuiFaucetTool extends BaseTool<FaucetParams> {
     }
 
     const getFaucetResults = await Promise.all(promises);
-    const successAddresses = addresses.filter((address, index) => getFaucetResults[index]);
-    const failedAddresses = addresses.filter((address, index) => !getFaucetResults[index]);
+
     const result = {
-      succeeds: successAddresses,
-      faileds: failedAddresses,
+      succeeds: addresses.filter((_, index) => getFaucetResults[index]),
+      faileds: addresses.filter((_, index) => !getFaucetResults[index]),
     };
 
     return this.createTextResponse(JSON.stringify(result));
