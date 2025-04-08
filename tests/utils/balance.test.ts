@@ -1,9 +1,15 @@
 import { CoinBalance, SuiClient } from '@mysten/sui/client';
-import { convertBalanceFromMistToSui, getBalanceInMist } from '../../src/utils/balance.js';
+import {
+  convertCoinBalanceFromMistToSui,
+  convertMistToSui,
+  getBalanceInMist,
+} from '../../src/utils/balance.js';
 import { jest } from '@jest/globals';
 
+console.error = jest.fn();
+
 describe('balance utils', () => {
-  describe('convertBalanceFromMistToSui', () => {
+  describe('convertCoinBalanceFromMistToSui', () => {
     it('should correctly convert MIST to SUI', () => {
       const mockBalance: CoinBalance = {
         coinType: '0x2::sui::SUI',
@@ -12,7 +18,7 @@ describe('balance utils', () => {
         lockedBalance: { number: '0' },
       };
 
-      expect(convertBalanceFromMistToSui(mockBalance)).toBe(1);
+      expect(convertCoinBalanceFromMistToSui(mockBalance)).toBe(1);
     });
 
     it('should handle decimal values correctly', () => {
@@ -23,10 +29,10 @@ describe('balance utils', () => {
         lockedBalance: { number: '0' },
       };
 
-      expect(convertBalanceFromMistToSui(mockBalance)).toBe(0.5);
+      expect(convertCoinBalanceFromMistToSui(mockBalance)).toBe(0.5);
     });
 
-    it('should handle decimal values correctly2', () => {
+    it('should handle small decimal values correctly', () => {
       const mockBalance: CoinBalance = {
         coinType: '0x2::sui::SUI',
         coinObjectCount: 1,
@@ -34,7 +40,7 @@ describe('balance utils', () => {
         lockedBalance: { number: '0' },
       };
 
-      expect(convertBalanceFromMistToSui(mockBalance)).toBe(0.0001);
+      expect(convertCoinBalanceFromMistToSui(mockBalance)).toBe(0.0001);
     });
 
     it('should handle zero balance', () => {
@@ -45,7 +51,20 @@ describe('balance utils', () => {
         lockedBalance: { number: '0' },
       };
 
-      expect(convertBalanceFromMistToSui(mockBalance)).toBe(0);
+      expect(convertCoinBalanceFromMistToSui(mockBalance)).toBe(0);
+    });
+  });
+
+  describe('convertMistToSui', () => {
+    it('should correctly convert MIST to SUI', () => {
+      expect(convertMistToSui(BigInt('1000000000'))).toBe(1);
+      expect(convertMistToSui(BigInt('500000000'))).toBe(0.5);
+      expect(convertMistToSui(BigInt('100000'))).toBe(0.0001);
+      expect(convertMistToSui(BigInt('0'))).toBe(0);
+    });
+
+    it('should handle large numbers', () => {
+      expect(convertMistToSui(BigInt('1000000000000000'))).toBe(1000000);
     });
   });
 
@@ -53,10 +72,7 @@ describe('balance utils', () => {
     let mockSuiClient: jest.Mocked<SuiClient>;
 
     beforeEach(() => {
-      // Reset all mocks before each test
       jest.clearAllMocks();
-
-      // Create a mock SuiClient instance
       mockSuiClient = {
         getBalance: jest.fn(),
       } as any;
@@ -72,12 +88,14 @@ describe('balance utils', () => {
       mockSuiClient.getBalance.mockResolvedValueOnce(mockBalance);
 
       const address = '0x1';
-
       const balanceInMist = await getBalanceInMist(address, mockSuiClient);
       expect(balanceInMist).toBe(BigInt(mockBalance.totalBalance));
+      expect(mockSuiClient.getBalance).toHaveBeenCalledWith({
+        owner: address,
+        coinType: '0x2::sui::SUI',
+      });
     });
 
-    // zero balance
     it('should return 0n for zero balance', async () => {
       const mockBalance: CoinBalance = {
         coinType: '0x2::sui::SUI',
@@ -89,14 +107,19 @@ describe('balance utils', () => {
 
       const address = '0x1';
       const balanceInMist = await getBalanceInMist(address, mockSuiClient);
-      expect(balanceInMist).toBe(0n);
+      expect(balanceInMist).toBe(BigInt('0'));
     });
 
-    // error fetching balance
-    it('should throw an error if the balance is not found', async () => {
+    it('should return null when error occurs', async () => {
       const address = '0x1';
       mockSuiClient.getBalance.mockRejectedValueOnce(new Error('Failed to fetch balance'));
       const balanceInMist = await getBalanceInMist(address, mockSuiClient);
+      expect(balanceInMist).toBeNull();
+    });
+
+    it('should handle invalid address', async () => {
+      mockSuiClient.getBalance.mockRejectedValueOnce(new Error('Invalid address'));
+      const balanceInMist = await getBalanceInMist('invalid_address', mockSuiClient);
       expect(balanceInMist).toBeNull();
     });
   });
