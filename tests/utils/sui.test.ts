@@ -1,6 +1,6 @@
 import { SuiClient } from '@mysten/sui/client';
 import { jest } from '@jest/globals';
-import { transferSUI } from '../../src/tools/sui-transfer.js';
+import { batchTransferSUI } from '../../src/utils/sui.js';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 
 // Mock the required modules
@@ -10,7 +10,7 @@ jest.mock('@mysten/sui/transactions');
 // Mock console.error to keep test output clean
 console.error = jest.fn();
 
-describe('transferSUI', () => {
+describe('batchTransferSUI', () => {
   let mockSuiClient: jest.Mocked<SuiClient>;
   let mockKeypair: Ed25519Keypair;
 
@@ -46,9 +46,8 @@ describe('transferSUI', () => {
     mockSuiClient.signAndExecuteTransaction.mockResolvedValue({ digest: expectedDigest });
     mockSuiClient.waitForTransaction.mockResolvedValue({ digest: expectedDigest });
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+    const digest = await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
 
-    expect(error).toBeNull();
     expect(digest).toBe(expectedDigest);
     expect(mockSuiClient.signAndExecuteTransaction).toHaveBeenCalledTimes(1);
     expect(mockSuiClient.waitForTransaction).toHaveBeenCalledTimes(1);
@@ -66,22 +65,28 @@ describe('transferSUI', () => {
       lockedBalance: { number: '0' },
     });
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
-
-    expect(error).not.toBeNull();
-    expect(error?.message).toBe('Insufficient balance');
-    expect(digest).toBe('');
+    try {
+      await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof Error).toBe(true);
+      expect((error as Error).message).toContain('Insufficient balance');
+    }
   });
 
   it('should return error when amounts and recipients length mismatch', async () => {
     const amounts = [BigInt(1000000), BigInt(2000000)];
     const recipients = [new Ed25519Keypair().toSuiAddress()];
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
-
-    expect(error).not.toBeNull();
-    expect(error?.message).toBe('Amounts and recipients must have the same length');
-    expect(digest).toBe('');
+    try {
+      await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof Error).toBe(true);
+      expect((error as Error).message).toBe('Amounts and recipients must have the same length');
+    }
   });
 
   it('should successfully transfer SUI to multiple recipients', async () => {
@@ -101,9 +106,8 @@ describe('transferSUI', () => {
     mockSuiClient.signAndExecuteTransaction.mockResolvedValue({ digest: expectedDigest });
     mockSuiClient.waitForTransaction.mockResolvedValue({ digest: expectedDigest });
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+    const digest = await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
 
-    expect(error).toBeNull();
     expect(digest).toBe(expectedDigest);
     expect(mockSuiClient.signAndExecuteTransaction).toHaveBeenCalledTimes(1);
     expect(mockSuiClient.waitForTransaction).toHaveBeenCalledTimes(1);
@@ -124,11 +128,14 @@ describe('transferSUI', () => {
     // Mock transaction failure
     mockSuiClient.signAndExecuteTransaction.mockRejectedValue(new Error('Transaction failed'));
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
-
-    expect(error).not.toBeNull();
-    expect(error?.message).toBe('Transaction failed');
-    expect(digest).toBe('');
+    try {
+      await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof Error).toBe(true);
+      expect((error as Error).message).toBe('Transaction failed');
+    }
   });
 
   // 测试用例6: balance check failure
@@ -139,11 +146,14 @@ describe('transferSUI', () => {
     // Mock balance check failure
     mockSuiClient.getBalance.mockRejectedValue(new Error('Failed to get balance'));
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
-
-    expect(error).not.toBeNull();
-    expect(error?.message).toBe('Failed to get balance');
-    expect(digest).toBe('');
+    try {
+      await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof Error).toBe(true);
+      expect((error as Error).message).toBe('Failed to get balance');
+    }
   });
 
   it('should validate recipient address format', async () => {
@@ -158,22 +168,28 @@ describe('transferSUI', () => {
       lockedBalance: { number: '0' },
     });
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
-
-    expect(error).not.toBeNull();
-    expect(error?.message).toContain('Invalid recipient address');
-    expect(digest).toBe('');
+    try {
+      await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof Error).toBe(true);
+      expect((error as Error).message).toContain('Invalid recipient address');
+    }
   });
 
   it('should validate non-zero amount', async () => {
     const amounts = [BigInt(0)];
     const recipients = [new Ed25519Keypair().toSuiAddress()];
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
-
-    expect(error).not.toBeNull();
-    expect(error?.message).toContain('Amount must be greater than 0');
-    expect(digest).toBe('');
+    try {
+      await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof Error).toBe(true);
+      expect((error as Error).message).toContain('Amount must be greater than 0');
+    }
   });
 
   it('should handle transaction timeout', async () => {
@@ -192,9 +208,13 @@ describe('transferSUI', () => {
     mockSuiClient.signAndExecuteTransaction.mockResolvedValue({ digest: '0x123456' });
     mockSuiClient.waitForTransaction.mockRejectedValue(new Error('Transaction timeout'));
 
-    const [error, digest] = await transferSUI(amounts, recipients, mockKeypair, mockSuiClient);
-
-    expect(error?.message).toContain('Transaction timeout');
-    expect(digest).toBe('');
+    try {
+      await batchTransferSUI(amounts, recipients, mockKeypair, mockSuiClient);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof Error).toBe(true);
+      expect((error as Error).message).toContain('Transaction timeout');
+    }
   });
 });
