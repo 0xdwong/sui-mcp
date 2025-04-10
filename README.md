@@ -1,5 +1,7 @@
 # Sui MCP Tools
 
+[![smithery badge](https://smithery.ai/badge/@0xdwong/sui-mcp)](https://smithery.ai/server/@0xdwong/sui-mcp)
+
 This is a MCP (Model Context Protocol) toolkit based on the Sui blockchain. The project provides functionality to interact with the Sui blockchain and integrates the MCP SDK to implement model context protocol features.
 
 ## 🚀 Features
@@ -12,6 +14,14 @@ This is a MCP (Model Context Protocol) toolkit based on the Sui blockchain. The 
 ## 📦 Installation & Configuration
 
 There are two ways to install and configure Sui MCP Tools:
+
+### Installing via Smithery
+
+To install Sui Tools for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@0xdwong/sui-mcp):
+
+```bash
+npx -y @smithery/cli install @0xdwong/sui-mcp --client claude
+```
 
 ### Method 1: Using npx (Recommended)
 
